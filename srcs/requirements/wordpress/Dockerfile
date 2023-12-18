@@ -1,9 +1,9 @@
-FROM debian:buster
+FROM debian:bookworm
 
-RUN apt update; \
-    apt install -y php7.3 php-mysqli php-fpm mariadb-client curl sendmail
+RUN apt-get update -y \
+    && apt-get install -y php8.2 php-mysqli php-fpm mariadb-client curl sendmail
 
-COPY ./conf/www.conf /etc/php/7.3/fpm/pool.d
+COPY ./conf/www.conf /etc/php/8.2/fpm/pool.d
 COPY ./conf /var/www/
 
 EXPOSE 9000

@@ -11,7 +11,7 @@ chmod -R 775 /var/www/wordpress
 mkdir -p /run/php/
 # Crée le répertoire /run/php/ s'il n'existe pas déjà.
 
-touch /run/php/php7.3-fpm.pid
+touch /run/php/php8.2-fpm.pid
 # Crée un fichier vide nommé php7.3-fpm.pid dans /run/php/. 
 # Ce fichier est souvent utilisé pour stocker l'ID de processus du daemon PHP-FPM.
 
@@ -66,5 +66,5 @@ fi
 wp redis enable --force --allow-root
 # Active le support de Redis pour la mise en cache, même si déjà activé.
 
-/usr/sbin/php-fpm7.3 -F
-# Lance PHP-FPM 7.3 en mode foreground.
+/usr/sbin/php-fpm8.2 -F
+# Lance PHP-FPM 8.2 en mode foreground.
