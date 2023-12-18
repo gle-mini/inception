@@ -1,0 +1,6 @@
+CREATE DATABASE Base;
+CREATE USER 'usera'@'%' IDENTIFIED BY '1234abcd';
+GRANT ALL PRIVILEGES ON Base.* TO 'usera'@'%';
+FLUSH PRIVILEGES;
+
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'Gurvan05';

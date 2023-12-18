@@ -1,79 +1,128 @@
-version: '3'
+version: "3.9"
+
+networks:
+  incepnet:
+    name: incepnet
+    driver: bridge
+
+volumes:
+  wp:
+    name: wp
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/gle-mini/data/wp
+
+  db:
+    name: db
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/gle-mini/data/db
+
+  prt:
+    name: prt
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/gle-mini/data/prt
 
 services:
   mariadb:
     container_name: mariadb
-    build:
-      context: ./requirements/mariadb
-      dockerfile: Dockerfile
-    volumes:
-      - mariadb:/var/lib/mysql
-    expose:
-      - "3306"
-    networks:
-      - inception
+    build: ./requirements/mariadb/
     restart: always
     env_file: .env
-    healthcheck:
-      test: mysqladmin ping --host=localhost -p${SQL_ROOT_PASSWORD}
-      interval: 5s
-      timeout: 1s
-      retries: 20
-      start_period: 5s
+    volumes:
+      - db:/var/lib/mysql
+    networks:
+      - incepnet
 
   wordpress:
     container_name: wordpress
-    build:
-      context: ./requirements/wordpress
-      dockerfile: Dockerfile
-    volumes:
-      - wordpress:/var/www/html/wordpress
-    expose:
-      - "9000"
-    networks:
-      - inception
-    restart: always
+    build: ./requirements/wordpress/
     env_file: .env
+    volumes:
+      - wp:/var/www/wordpress
+    networks:
+      - incepnet
     depends_on:
-      mariadb:
-        condition: service_healthy    
+      - mariadb
 
   nginx:
     container_name: nginx
-    build:
-      context: ./requirements/nginx
-      dockerfile: Dockerfile	
+    build: ./requirements/nginx/
     volumes:
-      - wordpress:/var/www/html/wordpress
+      - wp:/var/www/wordpress
+    networks:
+      - incepnet
     depends_on:
       - wordpress
     ports:
       - "443:443"
-    networks:
-      - inception
+
+  redis:
+    container_name: redis
+    build: ./requirements/bonus/redis/
     restart: always
     env_file: .env
-    healthcheck:
-      test: ["CMD-SHELL", "curl -f localhost:443"]
-      interval: 5s
-      timeout: 1s
-      retries: 10
-      start_period: 5s
+    networks:
+      - incepnet
+    depends_on:
+      - nginx
+    ports:
+      - "6379:6379"
 
-volumes:
-  mariadb:
-    driver: local
-    driver_opts:
-      type: 'none'
-      o: 'bind'
-      device: '/home/gle-mini/data/mariadb'
-  wordpress:
-    driver: local
-    driver_opts:
-      type: 'none'
-      o: 'bind'
-      device: '/home/gle-mini/data/wordpress'
+  ftp-server:
+    container_name: ftp-server
+    build: ./requirements/bonus/ftp-server/
+    restart: always
+    env_file: .env
+    volumes:
+      - wp:/home/usera
+    networks:
+      - incepnet
+    depends_on:
+      - nginx
+    ports:
+      - "21:21"
+      - "21000-21010:21000-21010"
 
-networks:
-  inception:
-    name: inception
+  site:
+    container_name: site
+    build: requirements/bonus/site/
+    restart: always
+    networks:
+      - incepnet
+    depends_on:
+      - nginx
+    ports:
+      - "1111:1111"
+
+  adminer:
+    container_name: adminer
+    build: ./requirements/bonus/adminer/
+    restart: always
+    depends_on:
+      - mariadb
+    networks:
+      - incepnet
+    ports:
+      - "8080:8080"
+
+  portainer:
+    container_name: portainer
+    build: ./requirements/bonus/portainer/
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - prt:/data
+    restart: always
+    depends_on:
+      - wordpress
+    networks:
+      - incepnet
+    ports:
+      - "9443:9443"
