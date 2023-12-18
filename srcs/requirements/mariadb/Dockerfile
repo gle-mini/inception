@@ -1,23 +1,13 @@
-FROM debian:bullseye
+FROM debian:buster
 
-RUN apt-get update -y \
-    && apt-get upgrade -y \
-    && apt-get install -y mariadb-server \
-    && apt-get install -y mariadb-client \
-    && apt-get install -y procps
+RUN apt update; \
+    apt install -y mariadb-server
 
-COPY ./conf/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
+COPY ./conf/50-server.cnf /etc/mysql/mariadb.conf.d/
+COPY ./conf/createdb.sql /
 
-RUN mkdir -p /var/run/mysqld \
-    &&  mkdir -p /var/lib/mysql
-RUN chown mysql:mysql /var/run/mysqld/ \
-    && chmod -R 755 /var/run/mysqld/
-RUN chown mysql:mysql /var/lib/mysql/ \
-    && chmod -R 755 /var/lib/mysql/
+RUN service mysql start && mysql < createdb.sql && rm -f createdb.sql
 
 EXPOSE 3306
 
-COPY ./tools/init_launch_db.sh /tmp
-RUN chmod +x /tmp/init_launch_db.sh
-
-ENTRYPOINT ["sh", "/tmp/init_launch_db.sh"]
+CMD /usr/bin/mysqld_safe

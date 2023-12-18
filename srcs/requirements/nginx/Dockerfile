@@ -1,18 +1,15 @@
-FROM debian:bullseye
+FROM debian:buster
 
-RUN apt update -y && \
-    apt upgrade -y && \
-    apt install -y nginx vim curl openssl
+RUN apt update; \
+    apt install -y nginx openssl
 
-# create necessary repertories if not existing already
-RUN mkdir -p /etc/nginx/ssl /var/run/nginx
-RUN openssl req -x509 -nodes -out /etc/nginx/ssl/inception.crt \
-	-keyout /etc/nginx/ssl/inception.key -subj "/C=FR/ST=IDF/L=Paris/O=42/OU=42/CN=$DOMAIN_NAME"
+RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+    -keyout /etc/ssl/private/nginx.key \
+    -out /etc/ssl/certs/nginx.crt \
+    -subj "/C=RU/ST=Moscow/L=Moscow/O=School21/OU=Wave8/CN=bcaffere"
 
-RUN chmod 755 /var/www/html && \
-    chown -R www-data:www-data /var/www/html
+COPY ./conf/default etc/nginx/sites-enabled/default
 
-COPY ./conf/nginx.conf /etc/nginx/nginx.conf
-#COPY ./tools/index.html /var/www/localhost/htdocs/
+EXPOSE 443
 
-CMD [ "nginx", "-g", "daemon off;" ]
+CMD ["nginx", "-g", "daemon off;"]
