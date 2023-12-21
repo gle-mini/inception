@@ -33,16 +33,27 @@ volumes:
 services:
   mariadb:
     container_name: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${WORDPRESS_NAME}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     build: ./requirements/mariadb/
     restart: always
     env_file: .env
     volumes:
       - db:/var/lib/mysql
+      - ./requirements/mariadb/conf/createdb.sql:/docker-entrypoint-initdb.d/createdb.sql
     networks:
       - incepnet
 
   wordpress:
     container_name: wordpress
+    environment:
+      WORDPRESS_DB_HOST: mariadb
+      WORDPRESS_DB_USER: ${MYSQL_USER}
+      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
+      WORDPRESS_DB_NAME: ${WORDPRESS_NAME}
     build: ./requirements/wordpress/
     env_file: .env
     volumes:
