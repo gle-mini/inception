@@ -7,10 +7,10 @@
 define('DB_NAME', 'Base');
 
 /** MySQL database username */
-define('DB_USER', 'usera');
+define('DB_USER', '${MYSQL_USER}');
 
 /** MySQL database password */
-define('DB_PASSWORD', '1234abcd');
+define('DB_PASSWORD', '${MYSQL_PASSWORD}');
 
 /** MySQL hostname */
 define('DB_HOST', 'mariadb');
@@ -23,7 +23,7 @@ define('DB_COLLATE', '');
 
 //** Redis cache settings. */
 define('WP_CACHE', true);
-define('WP_CACHE_KEY_SALT', 'gle-mini.42.fr');
+define('WP_CACHE_KEY_SALT', 'gurvan.42.fr');
 
 //** Try Redis container */
 define('WP_REDIS_HOST', 'redis');
