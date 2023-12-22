@@ -1,9 +1,9 @@
 CREATE DATABASE Base;
-CREATE USER 'usera'@'%' IDENTIFIED BY '1234abcd';
-GRANT ALL PRIVILEGES ON Base.* TO 'usera'@'%';
+CREATE USER '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';
+GRANT ALL PRIVILEGES ON Base.* TO '${MYSQL_USER}'@'%';
 FLUSH PRIVILEGES;
 
-ALTER USER 'root'@'localhost' IDENTIFIED BY 'Gurvan05';
+ALTER USER 'root'@'localhost' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';
 
 
 -- -- Créer une nouvelle base de données
