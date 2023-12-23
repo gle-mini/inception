@@ -1,0 +1,67 @@
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+.container {
+    display: flex;
+    max-width: 1200px;
+    margin: auto;
+}
+
+aside {
+    flex: 1;
+    background-color: #f3e5ab;
+    padding: 20px;
+}
+
+main {
+    flex: 2;
+    padding: 20px;
+}
+
+.photo-patissier {
+    width: 150px; /* ou 'height: 150px;' */
+    height: auto;
+    border-radius: 50%;
+    border: 3px solid #d2691e;
+}
+
+h2, h3 {
+    color: #d2691e;
+    text-align: center;
+}
+
+section {
+    margin-bottom: 20px;
+}
+
+.experience-item, .education-item, .skills-list {
+    margin-bottom: 15px;
+}
+
+.experience-item h3, .education-item h3 {
+    margin: 0;
+    font-weight: bold;
+}
+
+.date {
+    font-style: italic;
+    color: #555;
+}
+
+.skills-list {
+    list-style: none;
+    padding: 0;
+}
+
+.skills-list li {
+    background-color: #f3e5ab;
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 5px;
+    border-radius: 5px;
+}
