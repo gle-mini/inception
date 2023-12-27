@@ -42,7 +42,7 @@ define('LOGGED_IN_SALT',   '+qr-6C[G>uB=+>uWrU>XsV} fEosQvMNPoVED==+QW]}C{J [:p-
 define('NONCE_SALT',       'Q!G2)qR(Gdzy(7>m,+M+]Geac%R9+VAIW0EoslA+C)<> w=d9`pygGtn4+.U~?1=');
 
 /** WordPress Database Table prefix. */
-$table_prefix = 'wp_'; // Remplacez par votre préfixe unique
+$table_prefix = 'wp_';
 
 /** For developers: WordPress debugging mode. */
 define('WP_DEBUG', false);
