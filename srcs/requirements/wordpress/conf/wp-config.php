@@ -23,7 +23,7 @@ define('DB_COLLATE', '');
 
 //** Redis cache settings. */
 define('WP_CACHE', true);
-define('WP_CACHE_KEY_SALT', 'gurvan.42.fr');
+define('WP_CACHE_KEY_SALT', '${DOMAINE_NAME}');
 define('WP_REDIS_HOST', 'redis');
 define('WP_REDIS_PORT', 6379);
 // define( 'WP_REDIS_PASSWORD', '$REDIS_PWD' );
