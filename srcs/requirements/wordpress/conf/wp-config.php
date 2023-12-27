@@ -23,7 +23,7 @@ define('DB_COLLATE', '');
 
 //** Redis cache settings. */
 define('WP_CACHE', true);
-define('WP_CACHE_KEY_SALT', '${DOMAINE_NAME}');
+define('WP_CACHE_KEY_SALT', '${DOMAIN_NAME}');
 define('WP_REDIS_HOST', 'redis');
 define('WP_REDIS_PORT', 6379);
 // define( 'WP_REDIS_PASSWORD', '$REDIS_PWD' );
@@ -42,7 +42,7 @@ define('LOGGED_IN_SALT',   '+qr-6C[G>uB=+>uWrU>XsV} fEosQvMNPoVED==+QW]}C{J [:p-
 define('NONCE_SALT',       'Q!G2)qR(Gdzy(7>m,+M+]Geac%R9+VAIW0EoslA+C)<> w=d9`pygGtn4+.U~?1=');
 
 /** WordPress Database Table prefix. */
-$table_prefix = 'wp_unic_'; // Remplacez par votre préfixe unique
+$table_prefix = 'wp_'; // Remplacez par votre préfixe unique
 
 /** For developers: WordPress debugging mode. */
 define('WP_DEBUG', false);
